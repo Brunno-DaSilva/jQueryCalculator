@@ -1,63 +1,75 @@
-// wait until web page loads
 $(() => {
-  $("form").on("submit", addToDo);
-}); // closing document on ready
+  //Set the initial variables state;
+  let firstNum = [];
+  let secondNum = [];
+  let operation = "";
+  let result;
 
-// get the value and display it on the page
-const addToDo = () => {
-  // grab the element
-  event.preventDefault();
-  const $inputBox = $("#input-box");
-  // get the value store in a variable - just text not a jQuery element
-  const todo = $inputBox.val();
-  // change the value to an empty string to make it clear
-  $inputBox.val("");
-  // make a div
-  const $div = $("<div>")
-    // add the class of to-do-item
-    .addClass("to-do-item")
-    // inside the div add an h3 with the text of our todo
-    .html("<h3>" + todo + "</h3>");
+  $("main > div").on("click", function(e) {
+    let num = parseInt($(this).text());
 
-  // append the div
-  $("#to-do-list").append($div);
+    console.log(num);
+    // if its another operation, caculate the result of the first tow arrays and clear them
+    // check if it is a number
+    if (!parseInt($(".numbers").text())) {
+      $(".numbers").text("");
+    }
+    if (num || $(this).text() === ".") {
+      // if it is a number push it to the first number array
+      if (operation === "") {
+        firstNum.push($(this).text());
+      } else {
+        secondNum.push($(this).text());
+      }
+      $(".numbers").text($(".numbers").text() + $(this).text());
+    } else {
+      if ($(this).text() === "CLEAR") {
+        $(".numbers").text("0");
+        result = null;
+        operation = "";
+        firstNum = [];
+        secondNum = [];
+        return;
+      }
+      // if its an operation set operation to the operation
+      if (secondNum.length > 0 && $(this).text() === "=") {
+        sendResult();
+        return;
+      } else {
+        operation = $(this).text();
+        $(".numbers")
+          .text("")
+          .text(operation);
+      }
+    }
+  });
 
-  // add a button to our div
-  const $button = $("<button>")
-    // text say 'completed'
-    .text("Complete")
-    // add an event listner
-    .on("click", moveToDo)
-    // append to div
-    .appendTo($div);
-};
+  sendResult = () => {
+    let first = firstNum.join("");
+    let second = secondNum.join("");
+    // this could be if else, just showing another way
+    switch (operation) {
+      case "x":
+        result = first * second;
+        break;
+      case "-":
+        result = first - second;
+        break;
+      case "+":
+        result = first + second;
+        break;
+      case "/":
+        result = first / second;
+        break;
+      default:
+      // code block
+    }
 
-// move todo div to completed
-const moveToDo = () => {
-  // get the parent of the button we clicked on
-  const $toDoDiv = $(event.currentTarget).parent();
+    // set the first num to the result and clear in case we want to do another op
+    firstNum = result.toString().split("");
+    secondNum = [];
+    operation = "";
 
-  $toDoDiv
-    // remove the class of to-do-item
-    .removeClass("to-do-item")
-    // add the class of done-item
-    .addClass("done-item")
-    // detach from current container and append to completed div (appendTo does both detach and append! Hooray!)
-    .appendTo($("#completed"))
-    //target the children of this div
-    .children()
-    // access the button
-    .eq(1)
-    // change the text from complete to remove
-    .text("REMOVE")
-    // add event listner to this button
-    .on("click", removeToDo);
-};
-
-// remove the to do from the page entirely
-const removeToDo = () => {
-  // target the clicked button's parent and remove it
-  $(event.currentTarget)
-    .parent()
-    .remove();
-};
+    $(".numbers").text(result);
+  };
+});
