@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>To Do App</title>
+    <!--     CSS stylesheet -->
+    <link rel="stylesheet" href="main.css">
+    <!--     remember, jQuery must come first -->
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <!--     now your code -->
+    <script src="app.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bruno's What to Do</h1>
+      <form>
+        <label for="input-box"></label>
+        <input placeholder="What next?" type="text" name="" value="" id="input-box">
+        <button type="submit" name="button" id="submit">ADD</button>
+      </form>
+      <!--       Container for both lists -->
+      <div class="lists">
+        <!--         left list, things added should have a class of `to-do-item` to get the css -->
+        <div id="to-do-list">
+          <h2>Things to Do</h2>
+        </div>
+        <!--         right list, things added should have a class of `completed` -->
+        <div id="completed">
+          <h2>Things That are Done</h2>
+        </div>
+      </div>
+    </div>
+   
+  </body>
+  
+</html>
